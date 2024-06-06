@@ -1,15 +1,36 @@
 import EditScreenInfo from "@/components/EditScreenInfo";
-import { Heading, Center, Divider, Text } from "@gluestack-ui/themed";
+import {
+  Heading,
+  Center,
+  Divider,
+  Text,
+  FormControl,
+  FormControlHelper,
+  FormControlHelperText,
+  FormControlLabel,
+  FormControlLabelText,
+  Textarea,
+  TextareaInput,
+} from "@gluestack-ui/themed";
 
 export default function Tab2() {
   return (
-    <Center flex={1}>
+    <Center>
       <Heading bold size="2xl">
-        Expo V3 - Tab 2
+        Create articlel
       </Heading>
-      <Divider marginVertical={30} width="80%" />
-      <Text p="$4">Example below to use gluestack-ui components.</Text>
-      <EditScreenInfo path="app/(app)/(tabs)/tab2.tsx" />
+      <Divider marginVertical={10} width="80%" />
+      <FormControl>
+        <FormControlLabel>
+          <FormControlLabelText>Create your article</FormControlLabelText>
+        </FormControlLabel>
+        <Textarea>
+          <TextareaInput placeholder="This article is..." />
+        </Textarea>
+        <FormControlHelper>
+          <FormControlHelperText>Start your article</FormControlHelperText>
+        </FormControlHelper>
+      </FormControl>
     </Center>
   );
 }

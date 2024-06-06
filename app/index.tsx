@@ -14,7 +14,9 @@ import {
   Text,
   VStack,
   Card,
+  Divider,
 } from "@gluestack-ui/themed";
+import { Link, router } from "expo-router";
 
 // No schema needed since we are removing Zod validation
 
@@ -27,6 +29,7 @@ export default function Home() {
     const formData = { email, password };
     console.log(formData);
     alert("Form submitted successfully");
+    router.push("/tabs/tab2")
   };
 
   const handleState = () => {
@@ -56,6 +59,9 @@ export default function Home() {
       <Heading mb='$10' size='2xl' textAlign='center' color='$primary.500'>
         Welcome to EEtv Bharat!
       </Heading>
+      <Divider marginVertical={10} width="80%" />
+      {/* navigate button to other pages */}
+      {/* <Link href="/tabs">tabs</Link>  */}
       <Card size='md' variant='outline' m='$3'>
         <FormControl>
           <VStack space='xl'>
@@ -101,6 +107,10 @@ export default function Home() {
             <Button ml='auto' onPress={onSubmit}>
               <ButtonText color='$white'>Save</ButtonText>
             </Button>
+            {/* navigate through OnPress */}
+            {/* <Button ml='auto' onPress={()=> router.push("/tabs/tab1")}>
+              <ButtonText color='$white'>Article</ButtonText>
+            </Button> */}
           </VStack>
         </FormControl>
       </Card>
