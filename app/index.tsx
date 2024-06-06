@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -17,33 +14,21 @@ import {
   Text,
   VStack,
   Card,
-  FormControlErrorIcon,
-  FormControlError,
-  FormControlErrorText,
-  AlertCircleIcon,
 } from "@gluestack-ui/themed";
 
-// Define the schema
-const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string(), // No specific validation
-});
+// No schema needed since we are removing Zod validation
 
 export default function Home() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = () => {
+    const formData = { email, password };
+    console.log(formData);
     alert("Form submitted successfully");
   };
 
-  const [showPassword, setShowPassword] = useState(false);
   const handleState = () => {
     setShowPassword((showState) => !showState);
   };
@@ -79,24 +64,18 @@ export default function Home() {
             </Heading>
             <VStack space='xs'>
               <Text color='$primary.500' lineHeight='$xs'>
-                Email (email)
+                Email
               </Text>
               <Input>
                 <InputField
                   type='text'
                   color='$primary.500'
-                  {...register("email")}
+                  style={{height: 40}}
+                  placeholder="Type here to translate!"
+                  onChangeText={newText => setEmail(newText)}
+                  defaultValue={email}
                 />
               </Input>
-              {errors.email?.message &&
-                typeof errors.email.message === "string" && (
-                  <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                      {errors.email.message}
-                    </FormControlErrorText>
-                  </FormControlError>
-                )}
             </VStack>
             <VStack space='xs'>
               <Text color='$primary.500' lineHeight='$xs'>
@@ -106,7 +85,10 @@ export default function Home() {
                 <InputField
                   color='$primary.500'
                   type={showPassword ? "text" : "password"}
-                  {...register("password")}
+                  style={{height: 40}}
+                  placeholder="Type here to translate!"
+                  onChangeText={newText => setPassword(newText)}
+                  defaultValue={password}
                 />
                 <InputSlot pr='$3' onPress={handleState}>
                   <InputIcon
@@ -115,17 +97,8 @@ export default function Home() {
                   />
                 </InputSlot>
               </Input>
-              {errors.password?.message &&
-                typeof errors.password.message === "string" && (
-                  <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                      {errors.password.message}
-                    </FormControlErrorText>
-                  </FormControlError>
-                )}
             </VStack>
-            <Button ml='auto' onPress={handleSubmit(onSubmit)}>
+            <Button ml='auto' onPress={onSubmit}>
               <ButtonText color='$white'>Save</ButtonText>
             </Button>
           </VStack>
