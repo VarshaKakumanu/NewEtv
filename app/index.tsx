@@ -56,10 +56,11 @@ export default function Home() {
           py: "$5",
         },
       }}>
-      <Heading mb='$10' size='2xl' textAlign='center' color='$primary.500'>
+      <Heading mb='$5' size='2xl' textAlign='center' color='$primary.500'>
         Welcome to EEtv Bharat!
+        <Divider marginVertical={10} width="80%" />
       </Heading>
-      <Divider marginVertical={10} width="80%" />
+     
       {/* navigate button to other pages */}
       {/* <Link href="/tabs">tabs</Link>  */}
       <Card size='md' variant='outline' m='$3'>
