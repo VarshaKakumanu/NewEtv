@@ -19,6 +19,7 @@
     "@gluestack-ui/config": "latest",
     "@gluestack-ui/themed": "^1.1.28",
     "@hookform/resolvers": "^3.3.4",
+    "@react-native-community/datetimepicker": "^8.1.0",
     "@react-navigation/drawer": "^6.6.7",
     "@react-navigation/native": "^6.0.2",
     "expo": "^51.0.8",

@@ -1,10 +1,13 @@
 import {
   Heading,
+  Button,
+  ButtonText,
   Center,
   Divider,
   FormControl,
   FormControlLabel,
   FormControlLabelText,
+  Text,
   Textarea,
   TextareaInput,
   Select,
@@ -29,34 +32,92 @@ import {
   VStack,
   ChevronDownIcon,
   Icon,
+  Input,
+  InputField,
 } from "@gluestack-ui/themed";
 import { useState } from "react";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function Tab2() {
-  const [values, setValues] = useState([""]);
+  const initialValues = {
+    article: "",
+    country: "",
+    date: "",
+    newsletters: [],
+  };
+
+  
+  const [formValues, setFormValues] = useState(initialValues);
+
+  const handleInputChange = (name: string, value: any) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("Form Values:", e, formValues);
+  };
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+    handleInputChange("date", currentDate);
+  };
+
+  const showMode = (currentMode: any) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
   return (
     <Center w="$full">
       <Heading bold size="2xl">
         Create article
       </Heading>
       <Divider marginVertical={10} width="80%" />
-      <FormControl w="$full" h="$96" p="$10">
+      <FormControl as="form" w="$full" h="$96" p="$10">
         <VStack>
           <FormControlLabel>
             <FormControlLabelText>Create your article</FormControlLabelText>
           </FormControlLabel>
           <Textarea>
-            <TextareaInput placeholder="This article is..." />
+            <TextareaInput
+              placeholder="This article is..."
+              value={formValues.article}
+              onChange={(e: any) =>
+                handleInputChange("article", e.target.value)
+              }
+              aria-label="Article content"
+            />
           </Textarea>
         </VStack>
         <VStack>
           <FormControlLabel>
-            <FormControlLabelText>Select place </FormControlLabelText>
+            <FormControlLabelText>Select place</FormControlLabelText>
           </FormControlLabel>
-          <Select>
+          <Select
+            selectedValue={formValues.country}
+            onValueChange={(value) => handleInputChange("country", value)}
+            aria-label="Select country"
+          >
             <SelectTrigger>
               <SelectInput placeholder="Country" />
-              <SelectIcon >
+              <SelectIcon>
                 <Icon as={ChevronDownIcon} />
               </SelectIcon>
             </SelectTrigger>
@@ -74,6 +135,22 @@ export default function Tab2() {
             </SelectPortal>
           </Select>
         </VStack>
+        <VStack space="xs">
+          <Text color="$primary.500" lineHeight="$xs">
+            Date
+          </Text>
+          <Input>
+            <InputField
+              type="text"
+              color="$primary.500"
+              style={{ height: 40 }}
+              placeholder="Type here to date!"
+              value={formValues.date}
+              aria-label="Date input"
+              onChange={(e: any) => handleInputChange("date", e.target.value)}
+            />
+          </Input>
+        </VStack>
 
         <VStack>
           <FormControlLabel>
@@ -81,13 +158,12 @@ export default function Tab2() {
           </FormControlLabel>
           <CheckboxGroup
             my="$2"
-            value={values}
-            onChange={(keys) => {
-              setValues(keys);
-            }}
+            value={formValues.newsletters}
+            onChange={(value) => handleInputChange("newsletters", value)}
+            aria-label="Newsletter sign up"
           >
             <VStack space="sm">
-              <Checkbox size="sm" value="Mango">
+              <Checkbox size="sm" value="Daily Bits">
                 <CheckboxIndicator mr="$2">
                   <CheckboxIcon>
                     <CheckIcon />
@@ -95,7 +171,7 @@ export default function Tab2() {
                 </CheckboxIndicator>
                 <CheckboxLabel>Daily Bits</CheckboxLabel>
               </Checkbox>
-              <Checkbox size="sm" value="Apple">
+              <Checkbox size="sm" value="Event Updates">
                 <CheckboxIndicator mr="$2">
                   <CheckboxIcon>
                     <CheckIcon />
@@ -103,7 +179,7 @@ export default function Tab2() {
                 </CheckboxIndicator>
                 <CheckboxLabel>Event Updates</CheckboxLabel>
               </Checkbox>
-              <Checkbox size="sm" value="Orange">
+              <Checkbox size="sm" value="Sponsorship">
                 <CheckboxIndicator mr="$2">
                   <CheckboxIcon>
                     <CheckIcon />
@@ -119,6 +195,26 @@ export default function Tab2() {
             </FormControlHelperText>
           </FormControlHelper>
         </VStack>
+        <VStack>
+          {/* <Button ml="auto" onPress={showDatepicker}>
+            <ButtonText color="$white">Date</ButtonText>
+          </Button>
+          <Button ml="auto" onPress={showTimepicker}>
+            <ButtonText color="$white">time</ButtonText>
+          </Button> */}
+          <Text>selected: {date.toLocaleString()}</Text>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              is24Hour={true}
+              onChange={onChange}
+            />
+          )}
+        </VStack>
+        <Button ml="auto" aria-label="Save form" onPress={onSubmit}>
+          <ButtonText color="$white">Save</ButtonText>
+        </Button>
       </FormControl>
     </Center>
   );

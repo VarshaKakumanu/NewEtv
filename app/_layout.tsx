@@ -4,6 +4,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { UserContext } from "./userContext";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -56,11 +57,18 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  // setting data for useContext
+  const [user, setUser]: any = useState({
+    name: "vars",
+    email: "vv@gmail.com",
+  });
 
   return (
     <GluestackUIProvider config={config}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Slot />
+        <UserContext.Provider value={user}>
+          <Slot />
+        </UserContext.Provider>
       </ThemeProvider>
     </GluestackUIProvider>
   );
