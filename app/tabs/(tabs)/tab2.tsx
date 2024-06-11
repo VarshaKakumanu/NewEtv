@@ -34,11 +34,14 @@ import {
   Icon,
   Input,
   InputField,
+  HStack,
 } from "@gluestack-ui/themed";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-export default function Tab2() {
+import { UserContext } from "@/app/userContext";
+
+export default function Tab1() {
   const initialValues = {
     article: "",
     country: "",
@@ -46,7 +49,9 @@ export default function Tab2() {
     newsletters: [],
   };
 
-  
+  const user = useContext(UserContext);
+  console.log(user, "user");
+
   const [formValues, setFormValues] = useState(initialValues);
 
   const handleInputChange = (name: string, value: any) => {
@@ -85,13 +90,13 @@ export default function Tab2() {
     showMode("time");
   };
   return (
-    <Center w="$full">
+    <Center w="$full" px="$10">
       <Heading bold size="2xl">
         Create article
       </Heading>
       <Divider marginVertical={10} width="80%" />
-      <FormControl as="form" w="$full" h="$96" p="$10">
-        <VStack>
+      <FormControl as="form" w="$full" h="$96" p="$10" gap="$1.5">
+        <VStack space="md">
           <FormControlLabel>
             <FormControlLabelText>Create your article</FormControlLabelText>
           </FormControlLabel>
@@ -106,53 +111,55 @@ export default function Tab2() {
             />
           </Textarea>
         </VStack>
-        <VStack>
-          <FormControlLabel>
-            <FormControlLabelText>Select place</FormControlLabelText>
-          </FormControlLabel>
-          <Select
-            selectedValue={formValues.country}
-            onValueChange={(value) => handleInputChange("country", value)}
-            aria-label="Select country"
-          >
-            <SelectTrigger>
-              <SelectInput placeholder="Country" />
-              <SelectIcon>
-                <Icon as={ChevronDownIcon} />
-              </SelectIcon>
-            </SelectTrigger>
-            <SelectPortal>
-              <SelectBackdrop />
-              <SelectContent>
-                <SelectDragIndicatorWrapper>
-                  <SelectDragIndicator />
-                </SelectDragIndicatorWrapper>
-                <SelectItem label="India" value="India" />
-                <SelectItem label="Sri Lanka" value="Sri Lanka" />
-                <SelectItem label="Uganda" value="Uganda" />
-                <SelectItem label="Japan" value="Japan" />
-              </SelectContent>
-            </SelectPortal>
-          </Select>
-        </VStack>
-        <VStack space="xs">
-          <Text color="$primary.500" lineHeight="$xs">
-            Date
-          </Text>
-          <Input>
-            <InputField
-              type="text"
-              color="$primary.500"
-              style={{ height: 40 }}
-              placeholder="Type here to date!"
-              value={formValues.date}
-              aria-label="Date input"
-              onChange={(e: any) => handleInputChange("date", e.target.value)}
-            />
-          </Input>
+        <VStack space="md" w='$full'>
+          <VStack>
+            <FormControlLabel>
+              <FormControlLabelText>Select place</FormControlLabelText>
+            </FormControlLabel>
+            <Select
+              selectedValue={formValues.country}
+              onValueChange={(value) => handleInputChange("country", value)}
+              aria-label="Select country"
+            >
+              <SelectTrigger>
+                <SelectInput placeholder="Country" />
+                <SelectIcon>
+                  <Icon as={ChevronDownIcon} />
+                </SelectIcon>
+              </SelectTrigger>
+              <SelectPortal>
+                <SelectBackdrop />
+                <SelectContent>
+                  <SelectDragIndicatorWrapper>
+                    <SelectDragIndicator />
+                  </SelectDragIndicatorWrapper>
+                  <SelectItem label="India" value="India" />
+                  <SelectItem label="Sri Lanka" value="Sri Lanka" />
+                  <SelectItem label="Uganda" value="Uganda" />
+                  <SelectItem label="Japan" value="Japan" />
+                </SelectContent>
+              </SelectPortal>
+            </Select>
+          </VStack>
+          <VStack space="xs">
+            <Text color="$primary.500" lineHeight="$xs">
+              Date
+            </Text>
+            <Input>
+              <InputField
+                type="text"
+                color="$primary.500"
+                style={{ height: 40 }}
+                placeholder="Type here to date!"
+                value={formValues.date}
+                aria-label="Date input"
+                onChange={(e: any) => handleInputChange("date", e.target.value)}
+              />
+            </Input>
+          </VStack>
         </VStack>
 
-        <VStack>
+        <VStack space="md">
           <FormControlLabel>
             <FormControlLabelText>Sign up for newsletters</FormControlLabelText>
           </FormControlLabel>
