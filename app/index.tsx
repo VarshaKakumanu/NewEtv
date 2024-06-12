@@ -18,6 +18,7 @@ import {
   useToast,
   Toast,
   ToastDescription,
+  ScrollView,
   ToastTitle,
 } from "@gluestack-ui/themed";
 import { Link, router } from "expo-router";
@@ -37,8 +38,10 @@ export default function Home() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: email,
-        password: password,
+        // username: email,
+        // password: password,
+        username:'emilys',
+        password:'emilyspass',
         expiresInMins: 30,
       }),
     })
@@ -63,7 +66,7 @@ export default function Home() {
             );
           },
         });
-        router.push("/tabs/tab2");
+        router.push("/tabs");
       })
       .catch((error) => {
         console.log(error?.message);
@@ -75,9 +78,7 @@ export default function Home() {
               <Toast nativeID={toastId} action="attention" variant="solid">
                 <VStack space="xs" flex={1}>
                   <ToastTitle>Login Failed</ToastTitle>
-                  <ToastDescription>
-                    An error occurred. Please try again
-                  </ToastDescription>
+                  <ToastDescription>{error?.message}</ToastDescription>
                 </VStack>
               </Toast>
             );
@@ -118,58 +119,60 @@ export default function Home() {
 
       {/* navigate button to other pages */}
       {/* <Link href="/tabs">tabs</Link>  */}
-      <Card size="md" variant="outline" m="$3">
-        <FormControl>
-          <VStack space="xl">
-            <Heading color="$primary.500" lineHeight="$md">
-              Login
-            </Heading>
-            <VStack space="xs">
-              <Text color="$primary.500" lineHeight="$xs">
-                Email
-              </Text>
-              <Input>
-                <InputField
-                  type="text"
-                  color="$primary.500"
-                  style={{ height: 40 }}
-                  placeholder="Type here to translate!"
-                  onChangeText={(newText) => setEmail(newText)}
-                  defaultValue={email}
-                />
-              </Input>
-            </VStack>
-            <VStack space="xs">
-              <Text color="$primary.500" lineHeight="$xs">
-                Password
-              </Text>
-              <Input>
-                <InputField
-                  color="$primary.500"
-                  type={showPassword ? "text" : "password"}
-                  style={{ height: 40 }}
-                  placeholder="Type here to translate!"
-                  onChangeText={(newText) => setPassword(newText)}
-                  defaultValue={password}
-                />
-                <InputSlot pr="$3" onPress={handleState}>
-                  <InputIcon
-                    as={showPassword ? EyeIcon : EyeOffIcon}
+      <ScrollView h="$80" w="$96">
+        <Card size="md" variant="outline" m="$3">
+          <FormControl>
+            <VStack space="xl">
+              <Heading color="$primary.500" lineHeight="$md">
+                Login
+              </Heading>
+              <VStack space="xs">
+                <Text color="$primary.500" lineHeight="$xs">
+                  Email
+                </Text>
+                <Input>
+                  <InputField
+                    type="text"
                     color="$primary.500"
+                    style={{ height: 40 }}
+                    placeholder="Type here to translate!"
+                    onChangeText={(newText) => setEmail(newText)}
+                    defaultValue={email}
                   />
-                </InputSlot>
-              </Input>
-            </VStack>
-            <Button ml="auto" onPress={onSubmit}>
-              <ButtonText color="$white">Save</ButtonText>
-            </Button>
-            {/* navigate through OnPress */}
-            {/* <Button ml='auto' onPress={()=> router.push("/tabs/tab1")}>
+                </Input>
+              </VStack>
+              <VStack space="xs">
+                <Text color="$primary.500" lineHeight="$xs">
+                  Password
+                </Text>
+                <Input>
+                  <InputField
+                    color="$primary.500"
+                    type={showPassword ? "text" : "password"}
+                    style={{ height: 40 }}
+                    placeholder="Type here to translate!"
+                    onChangeText={(newText) => setPassword(newText)}
+                    defaultValue={password}
+                  />
+                  <InputSlot pr="$3" onPress={handleState}>
+                    <InputIcon
+                      as={showPassword ? EyeIcon : EyeOffIcon}
+                      color="$primary.500"
+                    />
+                  </InputSlot>
+                </Input>
+              </VStack>
+              <Button ml="auto" onPress={onSubmit}>
+                <ButtonText color="$white">Save</ButtonText>
+              </Button>
+              {/* navigate through OnPress */}
+              {/* <Button ml='auto' onPress={()=> router.push("/tabs/tab1")}>
               <ButtonText color='$white'>Article</ButtonText>
             </Button> */}
-          </VStack>
-        </FormControl>
-      </Card>
+            </VStack>
+          </FormControl>
+        </Card>
+      </ScrollView>
     </Box>
   );
 }

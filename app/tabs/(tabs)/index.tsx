@@ -38,6 +38,7 @@ import {
 } from "@gluestack-ui/themed";
 import { useContext, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Link, router } from "expo-router";
 
 import { UserContext } from "@/app/userContext";
 
@@ -97,10 +98,10 @@ export default function Home() {
       </Heading>
       <Divider marginVertical={10} width="80%" />
       <HStack gap="$10">
-        <Button>
+        <Button onPress={()=> router.push("/tabs/tab2")}>
           <ButtonText>create post</ButtonText>
         </Button>
-        <Button>
+        <Button onPress={()=> router.push("/tabs/tab1")}>
           <ButtonText>Draft posts</ButtonText>
         </Button>
       </HStack>
