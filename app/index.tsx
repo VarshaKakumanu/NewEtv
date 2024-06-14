@@ -22,8 +22,9 @@ import {
   ToastTitle,
 } from "@gluestack-ui/themed";
 import { Link, router } from "expo-router";
+import { authenticateUser } from "./keycloakConfig";
 
-// No schema needed since we are removing Zod validation
+const API_URL = "https://dummyjson.com/auth/login";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -31,10 +32,48 @@ export default function Home() {
   const [showPassword, setShowPassword] = useState(false);
 
   const toast = useToast();
+  // const onSubmit = () => {
+  //   authenticateUser(email, password)
+  //     .then((data) => {
+  //       console.log(data);
+  //       toast.show({
+  //         placement: "top",
+  //         render: ({ id }) => {
+  //           const toastId = "toast-" + id;
+  //           return (
+  //             <Toast nativeID={toastId} action="attention" variant="solid">
+  //               <VStack space="xs" flex={1}>
+  //                 <ToastTitle>Login successfully</ToastTitle>
+  //               </VStack>
+  //             </Toast>
+  //           );
+  //         },
+  //       });
+  //       router.push("/tabs");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Login Failed:", error);
+  //       toast.show({
+  //         placement: "top",
+  //         render: ({ index }) => {
+  //           const toastId = "toast-" + index;
+  //           return (
+  //             <Toast nativeID={toastId} action="attention" variant="solid">
+  //               <VStack space="xs" flex={1}>
+  //                 <ToastTitle>Login Failed</ToastTitle>
+  //                 <ToastDescription>{error.message}</ToastDescription>
+  //               </VStack>
+  //             </Toast>
+  //           );
+  //         },
+  //       });
+  //     });
+  // };
+  
 
   const onSubmit = () => {
     const formData = { email, password };
-    fetch("https://dummyjson.com/auth/login", {
+    fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -111,15 +150,16 @@ export default function Home() {
           py: "$5",
         },
       }}
+      p="$10"
     >
       <Heading mb="$5" size="2xl" textAlign="center" color="$primary.500">
-        Welcome to EEtv Bharat!
+        Welcome to Etv Bharat!
         <Divider marginVertical={10} width="80%" />
       </Heading>
 
       {/* navigate button to other pages */}
       {/* <Link href="/tabs">tabs</Link>  */}
-      <ScrollView h="$80" w="$96">
+      <ScrollView w="$full">
         <Card size="md" variant="outline" m="$3">
           <FormControl>
             <VStack space="xl">
@@ -135,7 +175,7 @@ export default function Home() {
                     type="text"
                     color="$primary.500"
                     style={{ height: 40 }}
-                    placeholder="Type here to translate!"
+                    placeholder="please enter email"
                     onChangeText={(newText) => setEmail(newText)}
                     defaultValue={email}
                   />

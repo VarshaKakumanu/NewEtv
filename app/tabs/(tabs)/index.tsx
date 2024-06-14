@@ -91,7 +91,7 @@ export default function Home() {
     showMode("time");
   };
   return (
-    <Center w="$full" px="$10">
+    <Center w="$full" px="$10" p="$10">
       <Heading bold size="2xl" flex={1} >
         Welcome Editor!
         <Text p="$4">Create a post or edit your post here.</Text>

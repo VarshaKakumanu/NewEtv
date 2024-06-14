@@ -1,5 +1,4 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { ButtonText } from "@gluestack-ui/themed";
+import React from "react";
 import {
   Heading,
   Center,
@@ -18,11 +17,28 @@ import {
   Button,
   ScrollView,
 } from "@gluestack-ui/themed";
+import { ButtonText } from "@gluestack-ui/themed"; // Import ButtonText if not already imported
+
+// Assuming 'data' is an array of objects where each object represents an article
+const data = [
+  {
+    id: "a",
+    title: "Article 1",
+    content:
+      "To place an order, simply select the products you want, proceed to checkout, provide shipping and payment information, and finalize your purchase.",
+  },
+  {
+    id: "b",
+    title: "Article 2",
+    content:
+      "We accept all major credit cards, including Visa, Mastercard, and American Express. We also support payments through PayPal.",
+  },
+  // Add more articles as needed
+];
 
 export default function Tab2() {
   return (
-    <ScrollView h="$80" w="$96">
-      {" "}
+    <ScrollView w="$full" p="$10">
       <Center flex={1}>
         <Heading bold size="2xl" m="$1.5">
           Article Drafts
@@ -38,61 +54,30 @@ export default function Tab2() {
             isCollapsible={true}
             isDisabled={false}
           >
-            <AccordionItem value="a" width="$full">
-              <AccordionHeader>
-                <AccordionTrigger>
-                  {({ isExpanded }) => {
-                    return (
+            {data.map((article) => (
+              <AccordionItem key={article.id} value={article.id} width="$full">
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    {({ isExpanded }) => (
                       <>
-                        <AccordionTitleText>Article 1</AccordionTitleText>
+                        <AccordionTitleText>{article.title}</AccordionTitleText>
                         {isExpanded ? (
                           <AccordionIcon as={ChevronUpIcon} ml="$3" />
                         ) : (
                           <AccordionIcon as={ChevronDownIcon} ml="$3" />
                         )}
                       </>
-                    );
-                  }}
-                </AccordionTrigger>
-              </AccordionHeader>
-              <AccordionContent rowGap="$10">
-                <AccordionContentText>
-                  To place an order, simply select the products you want,
-                  proceed to checkout, provide shipping and payment information,
-                  and finalize your purchase.
-                </AccordionContentText>
-                <Button ml="auto">
-                  <ButtonText>Edit</ButtonText>
-                </Button>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="b">
-              <AccordionHeader>
-                <AccordionTrigger>
-                  {({ isExpanded }) => {
-                    return (
-                      <>
-                        <AccordionTitleText>Article 2</AccordionTitleText>
-                        {isExpanded ? (
-                          <AccordionIcon as={ChevronUpIcon} ml="$3" />
-                        ) : (
-                          <AccordionIcon as={ChevronDownIcon} ml="$3" />
-                        )}
-                      </>
-                    );
-                  }}
-                </AccordionTrigger>
-              </AccordionHeader>
-              <AccordionContent rowGap="$10">
-                <AccordionContentText>
-                  We accept all major credit cards, including Visa, Mastercard,
-                  and American Express. We also support payments through PayPal.
-                </AccordionContentText>
-                <Button ml="auto">
-                  <ButtonText>Edit</ButtonText>
-                </Button>
-              </AccordionContent>
-            </AccordionItem>
+                    )}
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent rowGap="$10">
+                  <AccordionContentText>{article.content}</AccordionContentText>
+                  <Button ml="auto">
+                    <ButtonText>upload in aspera</ButtonText>
+                  </Button>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </Text>
       </Center>

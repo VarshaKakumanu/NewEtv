@@ -20,7 +20,6 @@ import {
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
   SelectItem,
-  styled,
   CheckIcon,
   Checkbox,
   CheckboxGroup,
@@ -35,16 +34,49 @@ import {
   Input,
   InputField,
   ScrollView,
-  HStack,
 } from "@gluestack-ui/themed";
 import { useContext, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { UserContext } from "@/app/userContext";
 
+export const indianStates = [
+  { label: "Andhra Pradesh", value: "Andhra Pradesh" },
+  { label: "Arunachal Pradesh", value: "Arunachal Pradesh" },
+  { label: "Assam", value: "Assam" },
+  { label: "Bihar", value: "Bihar" },
+  { label: "Chhattisgarh", value: "Chhattisgarh" },
+  { label: "Goa", value: "Goa" },
+  { label: "Gujarat", value: "Gujarat" },
+  { label: "Haryana", value: "Haryana" },
+  { label: "Himachal Pradesh", value: "Himachal Pradesh" },
+  { label: "Jharkhand", value: "Jharkhand" },
+  { label: "Karnataka", value: "Karnataka" },
+  { label: "Kerala", value: "Kerala" },
+  { label: "Madhya Pradesh", value: "Madhya Pradesh" },
+  { label: "Maharashtra", value: "Maharashtra" },
+  { label: "Manipur", value: "Manipur" },
+  { label: "Meghalaya", value: "Meghalaya" },
+  { label: "Mizoram", value: "Mizoram" },
+  { label: "Nagaland", value: "Nagaland" },
+  { label: "Odisha", value: "Odisha" },
+  { label: "Punjab", value: "Punjab" },
+  { label: "Rajasthan", value: "Rajasthan" },
+  { label: "Sikkim", value: "Sikkim" },
+  { label: "Tamil Nadu", value: "Tamil Nadu" },
+  { label: "Telangana", value: "Telangana" },
+  { label: "Tripura", value: "Tripura" },
+  { label: "Uttar Pradesh", value: "Uttar Pradesh" },
+  { label: "Uttarakhand", value: "Uttarakhand" },
+  { label: "West Bengal", value: "West Bengal" },
+  // Add more states if needed
+];
+
 export default function Tab1() {
   const initialValues = {
+    title: "",
     article: "",
+    author: "",
     country: "",
     date: "",
     newsletters: [],
@@ -92,30 +124,100 @@ export default function Tab1() {
   };
 
   return (
-    <ScrollView h="$80" w="$96">
+    <ScrollView p="$10" w="$full">
       <Center w="$full" px="$10">
         <Heading bold size="2xl">
-          Create article
+          Create Article
         </Heading>
         <Divider marginVertical={10} width="80%" />
-        <FormControl as="form" w="$full" h="$96" p="$10" gap="$1.5">
-          <VStack space="md">
-            <FormControlLabel>
-              <FormControlLabelText>Create your article</FormControlLabelText>
-            </FormControlLabel>
-            <Textarea>
-              <TextareaInput
-                placeholder="This article is..."
-                value={formValues.article}
-                onChange={(e: any) =>
-                  handleInputChange("article", e.target.value)
-                }
-                aria-label="Article content"
-              />
-            </Textarea>
-          </VStack>
-          <VStack space="md" w="$full">
-            <VStack>
+
+        <FormControl as="form" w="$full" h="$96" p="$10"  >
+          <VStack  gap="$2" pb="$4">
+            <VStack space="xs">
+              <FormControlLabel>
+                <FormControlLabelText>Title</FormControlLabelText>
+              </FormControlLabel>
+
+              <Input>
+                <InputField
+                  type="text"
+                  color="$primary.500"
+                  style={{ height: 40 }}
+                  placeholder="Title of the articlke here!"
+                  onChange={(e: any) =>
+                    handleInputChange("title", e.target.value)
+                  }
+                  defaultValue={formValues.title}
+                />
+              </Input>
+            </VStack>
+            <VStack space="md">
+              <FormControlLabel>
+                <FormControlLabelText>Create your article</FormControlLabelText>
+              </FormControlLabel>
+              <Textarea>
+                <TextareaInput
+                  placeholder="This article is..."
+                  value={formValues.article}
+                  onChange={(e: any) =>
+                    handleInputChange("article", e.target.value)
+                  }
+                  aria-label="Article content"
+                />
+              </Textarea>
+            </VStack>
+            <VStack space="xs">
+              <FormControlLabel>
+                <FormControlLabelText>Author</FormControlLabelText>
+              </FormControlLabel>
+
+              <Input>
+                <InputField
+                  type="text"
+                  color="$primary.500"
+                  style={{ height: 40 }}
+                  placeholder="~ author"
+                  onChange={(e: any) =>
+                    handleInputChange("author", e.target.value)
+                  }
+                  defaultValue={formValues.author}
+                />
+              </Input>
+            </VStack>
+            <VStack space="md" w="$full">
+              <VStack>
+                <FormControlLabel>
+                  <FormControlLabelText>Select place</FormControlLabelText>
+                </FormControlLabel>
+                <Select
+                  selectedValue={formValues.country}
+                  onValueChange={(value) => handleInputChange("country", value)}
+                  aria-label="Select State"
+                >
+                  <SelectTrigger>
+                    <SelectInput placeholder="State" />
+                    <SelectIcon>
+                      <Icon as={ChevronDownIcon} />
+                    </SelectIcon>
+                  </SelectTrigger>
+                  <SelectPortal>
+                    <SelectBackdrop />
+                    <SelectContent>
+                      <SelectDragIndicatorWrapper>
+                        <SelectDragIndicator />
+                      </SelectDragIndicatorWrapper>
+                      {indianStates.map((state) => (
+                        <SelectItem
+                          key={state.value}
+                          label={state.label}
+                          value={state.value}
+                        />
+                      ))}
+                    </SelectContent>
+                  </SelectPortal>
+                </Select>
+              </VStack>
+              {/* <VStack>
               <FormControlLabel>
                 <FormControlLabelText>Select place</FormControlLabelText>
               </FormControlLabel>
@@ -143,8 +245,8 @@ export default function Tab1() {
                   </SelectContent>
                 </SelectPortal>
               </Select>
-            </VStack>
-            <VStack space="xs">
+            </VStack> */}
+              {/* <VStack space="xs">
               <Text color="$primary.500" lineHeight="$xs">
                 Date
               </Text>
@@ -161,10 +263,11 @@ export default function Tab1() {
                   }
                 />
               </Input>
+            </VStack> */}
             </VStack>
           </VStack>
 
-          <VStack space="md">
+          {/* <VStack space="md">
             <FormControlLabel>
               <FormControlLabelText>
                 Sign up for newsletters
@@ -208,14 +311,14 @@ export default function Tab1() {
                 Subscribe to newsletters for updates
               </FormControlHelperText>
             </FormControlHelper>
-          </VStack>
-          <VStack>
-            {/* <Button ml="auto" onPress={showDatepicker}>
+          </VStack> */}
+          {/* <VStack>
+            <Button ml="auto" onPress={showDatepicker}>
             <ButtonText color="$white">Date</ButtonText>
           </Button>
           <Button ml="auto" onPress={showTimepicker}>
             <ButtonText color="$white">time</ButtonText>
-          </Button> */}
+          </Button>
             <Text>selected: {date.toLocaleString()}</Text>
             {show && (
               <DateTimePicker
@@ -225,7 +328,7 @@ export default function Tab1() {
                 onChange={onChange}
               />
             )}
-          </VStack>
+          </VStack> */}
           <Button ml="auto" aria-label="Save form" onPress={onSubmit}>
             <ButtonText color="$white">Save</ButtonText>
           </Button>
