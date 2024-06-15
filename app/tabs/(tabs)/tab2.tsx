@@ -38,6 +38,7 @@ import {
 import { useContext, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+import { useLocalSearchParams } from 'expo-router';
 import { UserContext } from "@/app/userContext";
 
 export const indianStates = [
@@ -81,6 +82,9 @@ export default function Tab1() {
     date: "",
     newsletters: [],
   };
+
+  const { id } = useLocalSearchParams();
+  console.log(id,"iddddddd")
 
   const user = useContext(UserContext);
   console.log(user, "user");
@@ -131,9 +135,9 @@ export default function Tab1() {
         </Heading>
         <Divider marginVertical={10} width="80%" />
 
-        <FormControl as="form" w="$full" h="$96" p="$10"  >
-          <VStack  gap="$2" pb="$4">
-            <VStack space="xs">
+        <FormControl as="form" w="$full" h="$96" p="$10">
+          <VStack gap="$2.5" pb="$4">
+            <VStack space="md">
               <FormControlLabel>
                 <FormControlLabelText>Title</FormControlLabelText>
               </FormControlLabel>
@@ -166,7 +170,7 @@ export default function Tab1() {
                 />
               </Textarea>
             </VStack>
-            <VStack space="xs">
+            <VStack space="md" w="$full">
               <FormControlLabel>
                 <FormControlLabelText>Author</FormControlLabelText>
               </FormControlLabel>
@@ -186,7 +190,7 @@ export default function Tab1() {
             </VStack>
             <VStack space="md" w="$full">
               <VStack>
-                <FormControlLabel>
+                <FormControlLabel pb="$2.5">
                   <FormControlLabelText>Select place</FormControlLabelText>
                 </FormControlLabel>
                 <Select
