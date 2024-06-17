@@ -10,11 +10,9 @@ import {
 import { useContext } from "react";
 import { router } from "expo-router";
 
-import { UserContext } from "@/app/userContext";
 
 export default function Home() {
-  const user = useContext(UserContext);
-  console.log(user, "user");
+
 
   return (
     <Center w="$full" px="$10" p="$10">

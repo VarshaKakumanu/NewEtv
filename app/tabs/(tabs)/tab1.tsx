@@ -18,6 +18,7 @@ import {
   ScrollView,
 } from "@gluestack-ui/themed";
 import { ButtonText } from "@gluestack-ui/themed"; // Import ButtonText if not already imported
+import { useDraft } from "../../DraftContext";
 
 // Assuming 'data' is an array of objects where each object represents an article
 const data = [
@@ -25,7 +26,7 @@ const data = [
     id: "a",
     title: "Article 1",
     content:
-      "To place an order, simply select the products you want, proceed to checkout, provide shipping and payment information, and finalize your purchase.",
+      "To place an order, simply select the products you wanp0: {}t, proceed to checkout, provide shipping and payment information, and finalize your purchase.",
   },
   {
     id: "b",
@@ -36,7 +37,23 @@ const data = [
   // Add more articles as needed
 ];
 
+
+
 export default function Tab2() {
+  const { drafts } = useDraft();
+
+ 
+  // Define a type for an object where each value is an array
+  type ObjectOfArrays<T> = {
+    [key: string]: T[];
+  };
+
+  // Use the generic type to define drafts
+  const draftsTyped = drafts as ObjectOfArrays<any>; // Replace `any` with a more specific type if possible
+
+  // Example usage
+  console.log('Drafts:', draftsTyped);
+  
   return (
     <ScrollView w="$full" p="$10">
       <Center flex={1}>

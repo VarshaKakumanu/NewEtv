@@ -39,8 +39,7 @@ import { useContext, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { useLocalSearchParams } from 'expo-router';
-import { UserContext } from "@/app/userContext";
-
+import { useDraft } from "@/app/DraftContext";
 export const indianStates = [
   { label: "Andhra Pradesh", value: "Andhra Pradesh" },
   { label: "Arunachal Pradesh", value: "Arunachal Pradesh" },
@@ -82,12 +81,13 @@ export default function Tab1() {
     date: "",
     newsletters: [],
   };
+  const { saveDraft } = useDraft();
 
+  
   const { id } = useLocalSearchParams();
+
   console.log(id,"iddddddd")
 
-  const user = useContext(UserContext);
-  console.log(user, "user");
 
   const [formValues, setFormValues] = useState(initialValues);
 
@@ -100,7 +100,8 @@ export default function Tab1() {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log("Form Values:", e, formValues);
+    console.log('Form Values:', formValues);
+    saveDraft(id as string, formValues);
   };
 
   const [date, setDate] = useState(new Date());
