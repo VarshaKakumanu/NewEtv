@@ -20,14 +20,6 @@ import {
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
   SelectItem,
-  CheckIcon,
-  Checkbox,
-  CheckboxGroup,
-  CheckboxIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-  FormControlHelper,
-  FormControlHelperText,
   VStack,
   ChevronDownIcon,
   Icon,
@@ -35,10 +27,9 @@ import {
   InputField,
   ScrollView,
 } from "@gluestack-ui/themed";
-import { useContext, useState } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { useState } from "react";
 
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from "expo-router";
 import { useDraft } from "@/app/DraftContext";
 export const indianStates = [
   { label: "Andhra Pradesh", value: "Andhra Pradesh" },
@@ -78,16 +69,12 @@ export default function Tab1() {
     article: "",
     author: "",
     country: "",
-    date: "",
-    newsletters: [],
   };
   const { saveDraft } = useDraft();
 
-  
   const { id } = useLocalSearchParams();
 
-  console.log(id,"iddddddd")
-
+  console.log(id, "iddddddd");
 
   const [formValues, setFormValues] = useState(initialValues);
 
@@ -98,34 +85,30 @@ export default function Tab1() {
     }));
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('Form Values:', formValues);
+    console.log("Form Values:", formValues);
     saveDraft(id as string, formValues);
-  };
 
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formValues),
+        }
+      );
 
-  const onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    handleInputChange("date", currentDate);
-  };
-
-  const showMode = (currentMode: any) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
+      const data = await response.json();
+      console.log("API Response:", data);
+      alert("Form submitted successfully");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to submit form");
+    }
   };
 
   return (
@@ -148,7 +131,7 @@ export default function Tab1() {
                   type="text"
                   color="$primary.500"
                   style={{ height: 40 }}
-                  placeholder="Title of the articlke here!"
+                  placeholder="Title of the article here!"
                   onChange={(e: any) =>
                     handleInputChange("title", e.target.value)
                   }
@@ -160,7 +143,12 @@ export default function Tab1() {
               <FormControlLabel>
                 <FormControlLabelText>Create your article</FormControlLabelText>
               </FormControlLabel>
-              <Textarea>
+              <Textarea
+                size="$full"
+                isReadOnly={false}
+                isInvalid={false}
+                isDisabled={false}
+              >
                 <TextareaInput
                   placeholder="This article is..."
                   value={formValues.article}
@@ -222,118 +210,9 @@ export default function Tab1() {
                   </SelectPortal>
                 </Select>
               </VStack>
-              {/* <VStack>
-              <FormControlLabel>
-                <FormControlLabelText>Select place</FormControlLabelText>
-              </FormControlLabel>
-              <Select
-                selectedValue={formValues.country}
-                onValueChange={(value) => handleInputChange("country", value)}
-                aria-label="Select country"
-              >
-                <SelectTrigger>
-                  <SelectInput placeholder="Country" />
-                  <SelectIcon>
-                    <Icon as={ChevronDownIcon} />
-                  </SelectIcon>
-                </SelectTrigger>
-                <SelectPortal>
-                  <SelectBackdrop />
-                  <SelectContent>
-                    <SelectDragIndicatorWrapper>
-                      <SelectDragIndicator />
-                    </SelectDragIndicatorWrapper>
-                    <SelectItem label="India" value="India" />
-                    <SelectItem label="Sri Lanka" value="Sri Lanka" />
-                    <SelectItem label="Uganda" value="Uganda" />
-                    <SelectItem label="Japan" value="Japan" />
-                  </SelectContent>
-                </SelectPortal>
-              </Select>
-            </VStack> */}
-              {/* <VStack space="xs">
-              <Text color="$primary.500" lineHeight="$xs">
-                Date
-              </Text>
-              <Input>
-                <InputField
-                  type="text"
-                  color="$primary.500"
-                  style={{ height: 40 }}
-                  placeholder="Type here to date!"
-                  value={formValues.date}
-                  aria-label="Date input"
-                  onChange={(e: any) =>
-                    handleInputChange("date", e.target.value)
-                  }
-                />
-              </Input>
-            </VStack> */}
             </VStack>
           </VStack>
 
-          {/* <VStack space="md">
-            <FormControlLabel>
-              <FormControlLabelText>
-                Sign up for newsletters
-              </FormControlLabelText>
-            </FormControlLabel>
-            <CheckboxGroup
-              my="$2"
-              value={formValues.newsletters}
-              onChange={(value) => handleInputChange("newsletters", value)}
-              aria-label="Newsletter sign up"
-            >
-              <VStack space="sm">
-                <Checkbox size="sm" value="Daily Bits">
-                  <CheckboxIndicator mr="$2">
-                    <CheckboxIcon>
-                      <CheckIcon />
-                    </CheckboxIcon>
-                  </CheckboxIndicator>
-                  <CheckboxLabel>Daily Bits</CheckboxLabel>
-                </Checkbox>
-                <Checkbox size="sm" value="Event Updates">
-                  <CheckboxIndicator mr="$2">
-                    <CheckboxIcon>
-                      <CheckIcon />
-                    </CheckboxIcon>
-                  </CheckboxIndicator>
-                  <CheckboxLabel>Event Updates</CheckboxLabel>
-                </Checkbox>
-                <Checkbox size="sm" value="Sponsorship">
-                  <CheckboxIndicator mr="$2">
-                    <CheckboxIcon>
-                      <CheckIcon />
-                    </CheckboxIcon>
-                  </CheckboxIndicator>
-                  <CheckboxLabel>Sponsorship</CheckboxLabel>
-                </Checkbox>
-              </VStack>
-            </CheckboxGroup>
-            <FormControlHelper>
-              <FormControlHelperText>
-                Subscribe to newsletters for updates
-              </FormControlHelperText>
-            </FormControlHelper>
-          </VStack> */}
-          {/* <VStack>
-            <Button ml="auto" onPress={showDatepicker}>
-            <ButtonText color="$white">Date</ButtonText>
-          </Button>
-          <Button ml="auto" onPress={showTimepicker}>
-            <ButtonText color="$white">time</ButtonText>
-          </Button>
-            <Text>selected: {date.toLocaleString()}</Text>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                is24Hour={true}
-                onChange={onChange}
-              />
-            )}
-          </VStack> */}
           <Button ml="auto" aria-label="Save form" onPress={onSubmit}>
             <ButtonText color="$white">Save</ButtonText>
           </Button>
